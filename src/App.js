@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useEffect, useRef, useState } from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const textRef = useRef(null);
+	const authorRef = useRef(null);
+
+	const [quoteObj, setQuoteObj] = useState({
+		quote: "",
+		author: ""
+	});
+
+	const url = "https://api.quotable.io";
+
+	useEffect(() => {
+		fetchQuote();
+	}, []);
+
+	const fetchQuote = async () => {
+		const res = await fetch(url + "/quotes/random");
+		const data = await res.json();
+
+		setQuoteObj({
+			quote: data[0].content,
+			author: data[0].author
+		});
+	};
+
+	return (
+		<div className="App">
+			<h2>Random Quote Machine</h2>
+			<div id="quote-box">
+				<h1 id="text"> {quoteObj.quote} </h1>
+				<p id="author">{quoteObj.author}</p>
+				<div className="tweet-section">
+					<a id="tweet-quote" href="https://twitter.com/intent/tweet" target="_blank" rel="noreferrer">
+						Tweet Quote
+					</a>
+					<button id="new-quote" onClick={fetchQuote}>
+						New Quote
+					</button>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default App;
