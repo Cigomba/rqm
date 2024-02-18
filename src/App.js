@@ -1,11 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-	const textRef = useRef(null);
-	const authorRef = useRef(null);
-
 	const [quoteObj, setQuoteObj] = useState({
 		quote: "",
 		author: ""
